@@ -2,7 +2,11 @@ package dao;
 
 import modelo.Reserva;
 
+import java.math.BigDecimal;
 import java.sql.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ReservaDAO {
     private Connection connection;
@@ -33,5 +37,32 @@ public class ReservaDAO {
             throw new RuntimeException(e);
         }
         return reserva.getId();
+    }
+
+    public List<Reserva> buscar(int id){
+        String sql = "SELECT * FROM RESERVAS WHERE ID = ?";
+        List<Reserva> reservaList = new ArrayList<>();
+
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            preparedStatement.setInt(1, id);
+
+            preparedStatement.execute();
+
+            try (ResultSet resultSet = preparedStatement.getResultSet()) {
+                while (resultSet.next()){
+                    Reserva reserva = new Reserva();
+                    reserva.setId(resultSet.getInt(1));
+                    reserva.setDataEntrada(LocalDate.parse(resultSet.getString(2)));
+                    reserva.setDataSaida(LocalDate.parse(resultSet.getString(3)));
+                    reserva.setValor(BigDecimal.valueOf(resultSet.getDouble(4)));
+                    reserva.setFormaDePagamento(resultSet.getString(5));
+
+                    reservaList.add(reserva);
+                }
+            }
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+        return reservaList;
     }
 }

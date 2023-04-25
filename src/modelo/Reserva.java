@@ -51,4 +51,15 @@ public class Reserva {
     public void setFormaDePagamento(String formaDePagamento) {
         this.formaDePagamento = formaDePagamento;
     }
+
+    @Override
+    public String toString() {
+        return "Reserva{" +
+                "id=" + id +
+                ", dataEntrada=" + dataEntrada +
+                ", dataSaida=" + dataSaida +
+                ", valor=" + valor +
+                ", formaDePagamento='" + formaDePagamento + '\'' +
+                '}';
+    }
 }
