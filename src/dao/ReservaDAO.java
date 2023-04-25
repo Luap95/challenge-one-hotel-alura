@@ -65,4 +65,15 @@ public class ReservaDAO {
         }
         return reservaList;
     }
+
+    public void deletar(int id){
+        String sql = "DELETE FROM RESERVAS WHERE ID = ?";
+
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            preparedStatement.setInt(1, id);
+            preparedStatement.execute();
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
 }
