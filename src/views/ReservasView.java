@@ -11,6 +11,7 @@ import javax.swing.ImageIcon;
 import java.awt.Color;
 import javax.swing.JTextField;
 import com.toedter.calendar.JDateChooser;
+import controller.HospedeController;
 import controller.ReservaController;
 import modelo.Reserva;
 
@@ -148,15 +149,11 @@ public class ReservasView extends JFrame {
 		txtDataS.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent evt) {
 				try{
-					LocalDate dataEntrada = LocalDate.of(txtDataE.getJCalendar().getYearChooser().getYear(),
-							txtDataE.getJCalendar().getMonthChooser().getMonth()+1,
-							txtDataE.getJCalendar().getDayChooser().getDay());
-
-					LocalDate dataSaida = LocalDate.of(txtDataS.getJCalendar().getYearChooser().getYear(),
-							txtDataS.getJCalendar().getMonthChooser().getMonth()+1,
-							txtDataS.getJCalendar().getDayChooser().getDay());
-
 					ReservaController reservaController = new ReservaController();
+
+					LocalDate dataEntrada = reservaController.FormataData(txtDataE);
+					LocalDate dataSaida = reservaController.FormataData(txtDataS);
+
 					BigDecimal valor = reservaController.calculaValorReserva(dataEntrada, dataSaida);
 
 					txtValor.setText(String.valueOf(valor));
@@ -318,8 +315,22 @@ public class ReservasView extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (ReservasView.txtDataE.getDate() != null && ReservasView.txtDataS.getDate() != null) {
+					Reserva reserva = new Reserva();
+					ReservaController reservaController = new ReservaController();
+
+					//setando os atributos
+					reserva.setDataEntrada(reservaController.FormataData(txtDataE));
+					reserva.setDataSaida(reservaController.FormataData(txtDataS));
+					reserva.setValor(new BigDecimal(txtValor.getText()));
+					reserva.setFormaDePagamento(txtFormaPagamento.getSelectedItem().toString());
+					//ao salvar é retornado o id da reserva
+					int id = reservaController.salvar();
+					//chamando a tela de cadastro de hospede
 					RegistroHospede registro = new RegistroHospede();
 					registro.setVisible(true);
+					//atribuindo o id de reserva para o atributo id da classe RegistroHospede
+					registro.setId(id);
+
 				} else {
 					JOptionPane.showMessageDialog(null, "Deve preencher todos os campos.");
 				}

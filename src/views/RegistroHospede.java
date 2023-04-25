@@ -7,6 +7,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 import java.awt.Color;
 import com.toedter.calendar.JDateChooser;
+import controller.HospedeController;
+import controller.ReservaController;
+import modelo.Hospede;
+
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
@@ -18,6 +22,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.text.Format;
 import java.awt.Toolkit;
+import java.time.LocalDate;
 import javax.swing.SwingConstants;
 import javax.swing.JSeparator;
 
@@ -34,6 +39,7 @@ public class RegistroHospede extends JFrame {
 	private JLabel labelExit;
 	private JLabel labelAtras;
 	int xMouse, yMouse;
+	private int id;
 
 	/**
 	 * Launch the application.
@@ -125,7 +131,7 @@ public class RegistroHospede extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				ReservasView reservas = new ReservasView();
 				reservas.setVisible(true);
-				dispose();				
+				dispose();
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -280,6 +286,23 @@ public class RegistroHospede extends JFrame {
 		btnsalvar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				Hospede hospede = new Hospede();
+				HospedeController hospedeController = new HospedeController();
+
+				//setando os valores dos atributos
+				hospede.setNome(txtNome.getText());
+				hospede.setSobreNome(txtSobrenome.getText());
+				hospede.setTelefone(txtTelefone.getText());
+				LocalDate dataNascimento = LocalDate.of(txtDataN.getJCalendar().getYearChooser().getYear(),
+						txtDataN.getJCalendar().getMonthChooser().getMonth() + 1,
+						txtDataN.getJCalendar().getDayChooser().getDay());
+				hospede.setDataNascimento(dataNascimento);
+				hospede.setNacionalidade(txtNacionalidade.getSelectedItem().toString());
+				//Método ReservasView passa o numero do id da reserva para o atributo id desta classe
+				txtNreserva.setText(String.valueOf(getId()));
+				hospede.setIdReserva(Integer.parseInt(txtNreserva.getText()));
+
+				hospedeController.salvar(hospede);
 			}
 		});
 		btnsalvar.setLayout(null);
@@ -321,6 +344,13 @@ public class RegistroHospede extends JFrame {
 	        int x = evt.getXOnScreen();
 	        int y = evt.getYOnScreen();
 	        this.setLocation(x - xMouse, y - yMouse);
-}
-											
+		}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getId() {
+		return id;
+	}
 }
