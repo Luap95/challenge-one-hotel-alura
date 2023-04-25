@@ -30,5 +30,6 @@ public class ReservaController {
     }
 
     public List<Reserva> listar(int idReserva) {
+        return null;
     }
 }

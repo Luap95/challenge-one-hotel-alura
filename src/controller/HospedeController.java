@@ -14,5 +14,6 @@ public class HospedeController {
     }
 
     public List<Hospede> listar(String text) {
+        return null;
     }
 }

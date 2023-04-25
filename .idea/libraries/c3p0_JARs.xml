@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="c3p0-JARs">
+    <CLASSES>
+      <root url="file://$USER_HOME$/Downloads/c3p0-JARs" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file://$USER_HOME$/Downloads/c3p0-JARs" recursive="false" />
+  </library>
+</component>
