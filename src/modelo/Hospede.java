@@ -38,4 +38,32 @@ public class Hospede {
     public void setIdReserva(int idReserva) {
         this.idReserva = idReserva;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public String getSobreNome() {
+        return sobreNome;
+    }
+
+    public LocalDate getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public String getNacionalidade() {
+        return nacionalidade;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public int getIdReserva() {
+        return idReserva;
+    }
 }

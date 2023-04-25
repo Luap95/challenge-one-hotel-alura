@@ -20,6 +20,18 @@ public class Reserva {
         return dataSaida;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public BigDecimal getValor() {
+        return valor;
+    }
+
+    public String getFormaDePagamento() {
+        return formaDePagamento;
+    }
+
     public void setId(int id) {
         this.id = id;
     }

@@ -1,12 +1,14 @@
 package controller;
 
 import com.toedter.calendar.JDateChooser;
+import modelo.Reserva;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class ReservaController {
 
@@ -25,5 +27,8 @@ public class ReservaController {
 
     public int salvar() {
         return 1220;
+    }
+
+    public List<Reserva> listar(int idReserva) {
     }
 }

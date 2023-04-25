@@ -1,5 +1,10 @@
 package views;
 
+import controller.HospedeController;
+import controller.ReservaController;
+import modelo.Hospede;
+import modelo.Reserva;
+
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -20,6 +25,8 @@ import javax.swing.ListSelectionModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressWarnings("serial")
 public class Buscar extends JFrame {
@@ -110,7 +117,7 @@ public class Buscar extends JFrame {
 		modeloHospedes.addColumn("Telefone");
 		modeloHospedes.addColumn("Numero de Reserva");
 		JScrollPane scroll_tableHuespedes = new JScrollPane(tbHospedes);
-		panel.addTab("Huéspedes", new ImageIcon(Buscar.class.getResource("/imagenes/pessoas.png")), scroll_tableHuespedes, null);
+		panel.addTab("Hóspedes", new ImageIcon(Buscar.class.getResource("/imagenes/pessoas.png")), scroll_tableHuespedes, null);
 		scroll_tableHuespedes.setVisible(true);
 		
 		JLabel lblNewLabel_2 = new JLabel("");
@@ -208,7 +215,27 @@ public class Buscar extends JFrame {
 		btnbuscar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				//lista de hospedes que recebida da consulta ao banco de dados
+				List<Hospede> hospedeList = new HospedeController().listar(txtBuscar.getText());
 
+				try{
+					for(Hospede hospede : hospedeList){
+						//preenchendo tabela de hospedes
+						modeloHospedes.addRow(new Object[]{hospede.getId(), hospede.getNome(), hospede.getSobreNome(),
+								hospede.getDataNascimento(), hospede.getNacionalidade(), hospede.getTelefone(),
+								hospede.getIdReserva()});
+						//apartir do hospede listamos as reservas
+						List<Reserva> reservaList = new ReservaController().listar(hospede.getIdReserva());
+
+						for (Reserva reserva : reservaList){
+							//preenchendo tabela de reservas
+							modelo.addRow(new Object[]{reserva.getId(), reserva.getDataEntrada(), reserva.getDataSaida(),
+									reserva.getValor(), reserva.getFormaDePagamento()});
+						}
+					}
+				}catch (Exception ex){
+					throw ex;
+				}
 			}
 		});
 		btnbuscar.setLayout(null);
@@ -225,6 +252,13 @@ public class Buscar extends JFrame {
 		lblBuscar.setFont(new Font("Roboto", Font.PLAIN, 18));
 		
 		JPanel btnEditar = new JPanel();
+
+		btnEditar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+
+			}
+		});
 		btnEditar.setLayout(null);
 		btnEditar.setBackground(new Color(12, 138, 199));
 		btnEditar.setBounds(635, 508, 122, 35);
