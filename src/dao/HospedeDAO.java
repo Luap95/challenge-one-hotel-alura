@@ -1,4 +1,36 @@
 package dao;
 
+import modelo.Hospede;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 public class HospedeDAO {
+
+    private Connection connection;
+
+    public HospedeDAO(Connection connection){
+        this.connection = connection;
+    }
+
+    public void salvar(Hospede hospede){
+        String sql = "INSERT INTO HOSPEDE (NOME, SOBRENOME, DATA_NASCIMENTO, NACIONALIDADE, TELEFONE, ID_RESERVA) " +
+                "VALUES (? , ? , ? , ? , ? , ?)";
+
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            preparedStatement.setString(1, hospede.getNome());
+            preparedStatement.setString(2, hospede.getSobreNome());
+            preparedStatement.setString(3, hospede.getDataNascimento().toString());
+            preparedStatement.setString(4, hospede.getNacionalidade());
+            preparedStatement.setString(5, hospede.getTelefone());
+            preparedStatement.setInt(6, hospede.getIdReserva());
+
+            preparedStatement.execute();
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
+
 }

@@ -7,7 +7,7 @@ import modelo.Reserva;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-public class TestaInsercao {
+public class TestaInsercaoReserva {
     public static void main(String[] args) {
         Reserva reserva = new Reserva();
 
