@@ -1,5 +1,6 @@
 package dao;
 
+import factory.ConnectionFactory;
 import modelo.Hospede;
 
 import java.sql.Connection;
@@ -65,5 +66,17 @@ public class HospedeDAO {
             throw new RuntimeException(e);
         }
         return hospedeList;
+    }
+
+    public void deletar(int id){
+        String sql = "DELETE FROM HOSPEDE WHERE ID = ?";
+
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            preparedStatement.setInt(1, id);
+            preparedStatement.execute();
+
+        }catch (SQLException e ){
+            throw new RuntimeException(e);
+        }
     }
 }
