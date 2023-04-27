@@ -1,5 +1,6 @@
 package dao;
 
+import modelo.Hospede;
 import modelo.Reserva;
 
 import java.math.BigDecimal;
@@ -41,7 +42,7 @@ public class ReservaDAO {
 
     public List<Reserva> buscar(int id){
         String sql = "SELECT * FROM RESERVAS WHERE ID = ?";
-        List<Reserva> reservaList = new ArrayList<>();
+        List<Reserva> reservaList = new ArrayList<Reserva>();
 
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setInt(1, id);

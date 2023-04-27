@@ -66,4 +66,17 @@ public class Hospede {
     public int getIdReserva() {
         return idReserva;
     }
+
+    @Override
+    public String toString() {
+        return "Hospede{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", sobreNome='" + sobreNome + '\'' +
+                ", dataNascimento=" + dataNascimento +
+                ", nacionalidade='" + nacionalidade + '\'' +
+                ", telefone='" + telefone + '\'' +
+                ", idReserva=" + idReserva +
+                '}';
+    }
 }

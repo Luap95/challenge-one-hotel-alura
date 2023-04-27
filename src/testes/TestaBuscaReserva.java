@@ -10,7 +10,6 @@ public class TestaBuscaReserva {
         ConnectionFactory connectionFactory = new ConnectionFactory();
         ReservaDAO reservaDAO = new ReservaDAO(connectionFactory.recuperaConexao());
         List<Reserva> reservaList = reservaDAO.buscar(1);
-
         for (Reserva reserva : reservaList){
             System.out.println(reserva);
         }

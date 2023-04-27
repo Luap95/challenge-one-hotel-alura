@@ -7,7 +7,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 public class ConnectionFactory {
-
     public DataSource dataSource;
 
     public ConnectionFactory(){
@@ -19,15 +18,14 @@ public class ConnectionFactory {
 
         comboPooledDataSource.setMaxPoolSize(10);
 
-        //atribuindo o pool de conexões ao DataSource
+        //atribuindo o pool de conexões para a datasource
         this.dataSource = comboPooledDataSource;
     }
-
-    public Connection recuperaConexao(){
-        //recuperando conecão já aberta pelo pool
-        try{
+    public Connection recuperaConexao()  {
+        //recuperando a conexão já aberta pelo pool
+        try {
             return this.dataSource.getConnection();
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
