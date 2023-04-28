@@ -79,4 +79,24 @@ public class HospedeDAO {
             throw new RuntimeException(e);
         }
     }
+
+    public void alterar(Hospede hospede){
+        String sql = "UPDATE HOSPEDE H SET H.NOME = ? , H.SOBRENOME = ? , H.DATA_NASCIMENTO = ? ," +
+                "H.NACIONALIDADE = ? , H.TELEFONE = ? , H.ID_RESERVA = ? WHERE ID = ?";
+
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, hospede.getNome());
+            preparedStatement.setString(2, hospede.getSobreNome());
+            preparedStatement.setString(3, hospede.getDataNascimento().toString());
+            preparedStatement.setString(4, hospede.getNacionalidade());
+            preparedStatement.setString(5, hospede.getTelefone());
+            preparedStatement.setInt(6, hospede.getIdReserva());
+            preparedStatement.setInt(7, hospede.getId());
+
+            preparedStatement.execute();
+
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+    }
 }

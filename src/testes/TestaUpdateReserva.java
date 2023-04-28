@@ -13,10 +13,10 @@ public class TestaUpdateReserva {
         ReservaDAO reservaDAO = new ReservaDAO(connectionFactory.recuperaConexao());
 
         Reserva reserva = new Reserva();
-        reserva.setDataEntrada(LocalDate.of(2023, 04, 25));
+        reserva.setDataEntrada(LocalDate.of(2023, 04, 4));
         reserva.setDataSaida(LocalDate.of(2023,07,07));
         reserva.setValor(BigDecimal.valueOf(780));
-        reserva.setFormaDePagamento("DINHEIRO");
+        reserva.setFormaDePagamento("CREDITO");
         reserva.setId(1);
 
         reservaDAO.alterar(reserva);
