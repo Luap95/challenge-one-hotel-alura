@@ -34,8 +34,8 @@ public class ReservaController {
                 data.getJCalendar().getDayChooser().getDay());
     }
 
-    public int salvar() {
-        return 1220;
+    public int salvar(Reserva reserva) {
+        return this.reservaDAO.salvar(reserva);
     }
 
     public List<Reserva> listar(int idReserva) {

@@ -61,7 +61,6 @@ public class RegistroHospede extends JFrame {
 	 * Create the frame.
 	 */
 	public RegistroHospede() {
-		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(RegistroHospede.class.getResource("/imagenes/lOGO-50PX.png")));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 910, 634);
@@ -303,6 +302,11 @@ public class RegistroHospede extends JFrame {
 				hospede.setIdReserva(Integer.parseInt(txtNreserva.getText()));
 
 				hospedeController.salvar(hospede);
+
+				Sucesso sucesso = new Sucesso();
+				sucesso.setVisible(true);
+
+				setVisible(false);
 			}
 		});
 		btnsalvar.setLayout(null);

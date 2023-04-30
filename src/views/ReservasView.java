@@ -323,13 +323,15 @@ public class ReservasView extends JFrame {
 					reserva.setDataSaida(reservaController.FormataData(txtDataS));
 					reserva.setValor(new BigDecimal(txtValor.getText()));
 					reserva.setFormaDePagamento(txtFormaPagamento.getSelectedItem().toString());
+					System.out.println(txtFormaPagamento.getSelectedItem().toString());
 					//ao salvar é retornado o id da reserva
-					int id = reservaController.salvar();
+					int id = reservaController.salvar(reserva);
 					//chamando a tela de cadastro de hospede
 					RegistroHospede registro = new RegistroHospede();
 					registro.setVisible(true);
 					//atribuindo o id de reserva para o atributo id da classe RegistroHospede
 					registro.setId(id);
+
 
 				} else {
 					JOptionPane.showMessageDialog(null, "Deve preencher todos os campos.");
