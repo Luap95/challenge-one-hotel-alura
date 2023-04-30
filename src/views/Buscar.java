@@ -16,6 +16,8 @@ import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -268,7 +270,42 @@ public class Buscar extends JFrame {
 		btnEditar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				int indexTabela = panel.getModel().getSelectedIndex();
+				System.out.println(indexTabela);
+				ReservaController reservaController = new ReservaController();
+				HospedeController hospedeController = new HospedeController();
 
+				if(indexTabela == 0){
+					Reserva reserva = new Reserva();
+
+					reserva.setId((Integer) modelo.getValueAt(tbReservas.getSelectedRow(), 0));
+					reserva.setDataEntrada(LocalDate.parse(modelo.getValueAt(
+							tbReservas.getSelectedRow(), 1).toString()));
+					reserva.setDataSaida(LocalDate.parse(modelo.getValueAt(
+							tbReservas.getSelectedRow(), 2).toString()));
+					reserva.setValor(new BigDecimal(modelo.getValueAt(
+							tbReservas.getSelectedRow(), 3).toString()));
+					reserva.setFormaDePagamento((String) modelo.getValueAt(
+							tbReservas.getSelectedRow(), 4));
+
+					reservaController.alterar(reserva);
+
+				} else if(indexTabela == 1){
+					Hospede hospede = new Hospede();
+
+					hospede.setId((Integer) modeloHospedes.getValueAt(tbHospedes.getSelectedRow(), 0));
+					hospede.setNome(modeloHospedes.getValueAt(tbHospedes.getSelectedRow(), 1).toString());
+					hospede.setSobreNome(modeloHospedes.getValueAt(tbHospedes.getSelectedRow(), 2).toString());
+					hospede.setDataNascimento(LocalDate.parse((String) modeloHospedes.getValueAt(
+							tbHospedes.getSelectedRow(), 3).toString()));
+					hospede.setNacionalidade(modeloHospedes.getValueAt(
+							tbHospedes.getSelectedRow(), 4).toString());
+					hospede.setTelefone(modeloHospedes.getValueAt(tbHospedes.getSelectedRow(), 5).toString());
+					hospede.setIdReserva((Integer) modeloHospedes.getValueAt(tbHospedes.getSelectedRow(), 6));
+
+					System.out.println(hospede);
+					hospedeController.alterar(hospede);
+				}
 			}
 		});
 		btnEditar.setLayout(null);

@@ -41,4 +41,8 @@ public class ReservaController {
     public List<Reserva> listar(int idReserva) {
         return reservaDAO.buscar(idReserva);
     }
+
+    public void alterar(Reserva reserva) {
+        this.reservaDAO.alterar(reserva);
+    }
 }
