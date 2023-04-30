@@ -43,6 +43,7 @@ public class ReservaDAO {
     public List<Reserva> buscar(int id){
         String sql = "SELECT * FROM RESERVAS WHERE ID = ?";
         List<Reserva> reservaList = new ArrayList<Reserva>();
+        Reserva reserva = new Reserva();
 
         try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
             preparedStatement.setInt(1, id);
@@ -51,7 +52,6 @@ public class ReservaDAO {
 
             try (ResultSet resultSet = preparedStatement.getResultSet()) {
                 while (resultSet.next()){
-                    Reserva reserva = new Reserva();
                     reserva.setId(resultSet.getInt(1));
                     reserva.setDataEntrada(LocalDate.parse(resultSet.getString(2)));
                     reserva.setDataSaida(LocalDate.parse(resultSet.getString(3)));

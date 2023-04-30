@@ -1,6 +1,5 @@
 package dao;
 
-import factory.ConnectionFactory;
 import modelo.Hospede;
 
 import java.sql.Connection;
@@ -38,7 +37,7 @@ public class HospedeDAO {
         }
     }
 
-    public List<Hospede> buscar(String sobrenome){
+    public List<Hospede> buscarSobrenome(String sobrenome){
         String sql = "SELECT * FROM HOSPEDE WHERE SOBRENOME = ?";
         List<Hospede> hospedeList = new ArrayList<Hospede>();
 
@@ -46,26 +45,47 @@ public class HospedeDAO {
             preparedStatement.setString(1 , sobrenome);
 
             preparedStatement.execute();
-            System.out.println("hospede");
-            try(ResultSet resultSet = preparedStatement.getResultSet()){
-                while(resultSet.next()){
-                    Hospede hospede = new Hospede();
 
-                    hospede.setId(resultSet.getInt(1));
-                    hospede.setNome(resultSet.getString(2));
-                    hospede.setSobreNome(resultSet.getString(3));
-                    hospede.setDataNascimento(LocalDate.parse(resultSet.getString(4)));
-                    hospede.setNacionalidade(resultSet.getString(5));
-                    hospede.setTelefone(resultSet.getString(6));
-                    hospede.setIdReserva(resultSet.getInt(7));
-
-                    hospedeList.add(hospede);
-                }
-            }
+            formataHospede(hospedeList, preparedStatement);
         }catch (SQLException e){
             throw new RuntimeException(e);
         }
         return hospedeList;
+    }
+
+    public List<Hospede> buscarIdReserva(int idReserva){
+        String sql = "SELECT * FROM HOSPEDE WHERE ID_RESERVA = ?";
+        List<Hospede> hospedeList = new ArrayList<Hospede>();
+
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sql)){
+            preparedStatement.setInt(1 , idReserva);
+
+            preparedStatement.execute();
+
+            formataHospede(hospedeList, preparedStatement);
+        }catch (SQLException e){
+            throw new RuntimeException(e);
+        }
+        return hospedeList;
+    }
+
+
+    private static void formataHospede(List<Hospede> hospedeList, PreparedStatement preparedStatement) throws SQLException {
+        try(ResultSet resultSet = preparedStatement.getResultSet()){
+            while(resultSet.next()){
+                Hospede hospede = new Hospede();
+
+                hospede.setId(resultSet.getInt(1));
+                hospede.setNome(resultSet.getString(2));
+                hospede.setSobreNome(resultSet.getString(3));
+                hospede.setDataNascimento(LocalDate.parse(resultSet.getString(4)));
+                hospede.setNacionalidade(resultSet.getString(5));
+                hospede.setTelefone(resultSet.getString(6));
+                hospede.setIdReserva(resultSet.getInt(7));
+
+                hospedeList.add(hospede);
+            }
+        }
     }
 
     public void deletar(int id){

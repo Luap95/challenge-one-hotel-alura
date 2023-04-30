@@ -1,6 +1,8 @@
 package controller;
 
 import com.toedter.calendar.JDateChooser;
+import dao.ReservaDAO;
+import factory.ConnectionFactory;
 import modelo.Reserva;
 
 import java.math.BigDecimal;
@@ -11,6 +13,13 @@ import java.util.Date;
 import java.util.List;
 
 public class ReservaController {
+
+    private ReservaDAO reservaDAO;
+
+    public ReservaController(){
+        ConnectionFactory connectionFactory = new ConnectionFactory();
+        this.reservaDAO = new ReservaDAO(connectionFactory.recuperaConexao());
+    }
 
     public BigDecimal calculaValorReserva(LocalDate dataEntrada, LocalDate dataSaida){
         BigDecimal valor = new BigDecimal(20);
@@ -30,6 +39,6 @@ public class ReservaController {
     }
 
     public List<Reserva> listar(int idReserva) {
-        return null;
+        return reservaDAO.buscar(idReserva);
     }
 }
