@@ -1,21 +1,16 @@
 package views;
 
 import java.awt.EventQueue;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JTextField;
 import java.awt.Color;
 import com.toedter.calendar.JDateChooser;
 import controller.HospedeController;
 import controller.ReservaController;
 import modelo.Hospede;
+import modelo.Reserva;
 
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JLabel;
 import java.awt.Font;
-import javax.swing.ImageIcon;
 import java.awt.SystemColor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -23,8 +18,6 @@ import java.awt.event.MouseMotionAdapter;
 import java.text.Format;
 import java.awt.Toolkit;
 import java.time.LocalDate;
-import javax.swing.SwingConstants;
-import javax.swing.JSeparator;
 
 @SuppressWarnings("serial")
 public class RegistroHospede extends JFrame {
@@ -33,13 +26,12 @@ public class RegistroHospede extends JFrame {
 	private JTextField txtNome;
 	private JTextField txtSobrenome;
 	private JTextField txtTelefone;
-	private JTextField txtNreserva;
 	private JDateChooser txtDataN;
 	private JComboBox<Format> txtNacionalidade;
 	private JLabel labelExit;
 	private JLabel labelAtras;
 	int xMouse, yMouse;
-	private int id;
+	private Reserva reserva;
 
 	/**
 	 * Launch the application.
@@ -229,21 +221,7 @@ public class RegistroHospede extends JFrame {
 		lblTitulo.setForeground(new Color(12, 138, 199));
 		lblTitulo.setFont(new Font("Roboto Black", Font.PLAIN, 23));
 		contentPane.add(lblTitulo);
-		
-		JLabel lblNumeroReserva = new JLabel("NÚMERO DE RESERVA");
-		lblNumeroReserva.setBounds(560, 474, 253, 14);
-		lblNumeroReserva.setForeground(SystemColor.textInactiveText);
-		lblNumeroReserva.setFont(new Font("Roboto Black", Font.PLAIN, 18));
-		contentPane.add(lblNumeroReserva);
-		
-		txtNreserva = new JTextField();
-		txtNreserva.setFont(new Font("Roboto", Font.PLAIN, 16));
-		txtNreserva.setBounds(560, 495, 285, 33);
-		txtNreserva.setColumns(10);
-		txtNreserva.setBackground(Color.WHITE);
-		txtNreserva.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		contentPane.add(txtNreserva);
-		
+
 		JSeparator separator_1_2 = new JSeparator();
 		separator_1_2.setBounds(560, 170, 289, 2);
 		separator_1_2.setForeground(new Color(12, 138, 199));
@@ -273,12 +251,7 @@ public class RegistroHospede extends JFrame {
 		separator_1_2_4.setForeground(new Color(12, 138, 199));
 		separator_1_2_4.setBackground(new Color(12, 138, 199));
 		contentPane.add(separator_1_2_4);
-		
-		JSeparator separator_1_2_5 = new JSeparator();
-		separator_1_2_5.setBounds(560, 529, 289, 2);
-		separator_1_2_5.setForeground(new Color(12, 138, 199));
-		separator_1_2_5.setBackground(new Color(12, 138, 199));
-		contentPane.add(separator_1_2_5);
+
 		
 		JPanel btnsalvar = new JPanel();
 		btnsalvar.setBounds(723, 560, 122, 35);
@@ -287,6 +260,7 @@ public class RegistroHospede extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				Hospede hospede = new Hospede();
 				HospedeController hospedeController = new HospedeController();
+				ReservaController reservaController = new ReservaController();
 
 				//setando os valores dos atributos
 				hospede.setNome(txtNome.getText());
@@ -297,10 +271,15 @@ public class RegistroHospede extends JFrame {
 						txtDataN.getJCalendar().getDayChooser().getDay());
 				hospede.setDataNascimento(dataNascimento);
 				hospede.setNacionalidade(txtNacionalidade.getSelectedItem().toString());
-				//Método ReservasView passa o numero do id da reserva para o atributo id desta classe
-				txtNreserva.setText(String.valueOf(getId()));
-				hospede.setIdReserva(Integer.parseInt(txtNreserva.getText()));
 
+				//Salvando reserva e retorna id gerado
+				int id = reservaController.salvar(getReserva());
+				//Informando o id da reserva
+				JOptionPane.showMessageDialog(null, "O id da reserva é " + id);
+				//atribuindo o id de reserva ao hospede
+				hospede.setIdReserva(id);
+				System.out.println(id);
+				//salvando hospede
 				hospedeController.salvar(hospede);
 
 				Sucesso sucesso = new Sucesso();
@@ -350,11 +329,11 @@ public class RegistroHospede extends JFrame {
 	        this.setLocation(x - xMouse, y - yMouse);
 		}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setReserva(Reserva reserva) {
+		this.reserva = reserva;
 	}
 
-	public int getId() {
-		return id;
+	public Reserva getReserva() {
+		return this.reserva;
 	}
 }
